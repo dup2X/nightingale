@@ -6,9 +6,9 @@ import (
 
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/modules/agent/config"
-	"github.com/didi/nightingale/src/modules/agent/log/reader"
-	"github.com/didi/nightingale/src/modules/agent/log/strategy"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/modules/agent/log/reader"
+	"github.com/dup2X/nightingale/src/modules/agent/log/strategy"
 )
 
 type ConfigInfo struct {

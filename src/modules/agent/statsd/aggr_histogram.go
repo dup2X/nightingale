@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
-	tdigest "github.com/didi/nightingale/src/toolkits/go-tdigest"
+	tdigest "github.com/dup2X/nightingale/src/toolkits/go-tdigest"
 )
 
 type histogramAggregator struct {

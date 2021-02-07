@@ -1,7 +1,7 @@
 package procs
 
 import (
-	"github.com/didi/nightingale/src/models"
+	"github.com/dup2X/nightingale/src/models"
 )
 
 var (

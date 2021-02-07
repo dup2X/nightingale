@@ -9,8 +9,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/didi/nightingale/src/common/address"
-	"github.com/didi/nightingale/src/common/middleware"
+	"github.com/dup2X/nightingale/src/common/address"
+	"github.com/dup2X/nightingale/src/common/middleware"
 )
 
 var srv = &http.Server{

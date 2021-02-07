@@ -9,8 +9,8 @@ import (
 	"github.com/toolkits/pkg/file"
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/modules/agent/stra"
-	"github.com/didi/nightingale/src/modules/agent/sys"
+	"github.com/dup2X/nightingale/src/modules/agent/stra"
+	"github.com/dup2X/nightingale/src/modules/agent/sys"
 )
 
 // key: 60_ntp.py

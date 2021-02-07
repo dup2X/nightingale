@@ -4,11 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/toolkits/pkg/errors"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/core"
-	"github.com/didi/nightingale/src/modules/agent/log/strategy"
-	"github.com/didi/nightingale/src/modules/agent/log/worker"
-	"github.com/didi/nightingale/src/modules/agent/stra"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/core"
+	"github.com/dup2X/nightingale/src/modules/agent/log/strategy"
+	"github.com/dup2X/nightingale/src/modules/agent/log/worker"
+	"github.com/dup2X/nightingale/src/modules/agent/stra"
 )
 
 func pushData(c *gin.Context) {

@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/core"
-	"github.com/didi/nightingale/src/modules/agent/sys"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/core"
+	"github.com/dup2X/nightingale/src/modules/agent/sys"
 
 	"github.com/toolkits/pkg/logger"
 	"github.com/toolkits/pkg/nux"

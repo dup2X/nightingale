@@ -8,9 +8,9 @@ import (
 	"github.com/toolkits/pkg/logger"
 	"github.com/toolkits/pkg/net/httplib"
 
-	"github.com/didi/nightingale/src/common/address"
-	"github.com/didi/nightingale/src/models"
-	"github.com/didi/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/common/address"
+	"github.com/dup2X/nightingale/src/models"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
 )
 
 func GetCollects() {

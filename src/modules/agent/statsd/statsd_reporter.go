@@ -6,11 +6,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/config"
-	"github.com/didi/nightingale/src/modules/agent/core"
-	"github.com/didi/nightingale/src/toolkits/exit"
-	"github.com/didi/nightingale/src/toolkits/stats"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/modules/agent/core"
+	"github.com/dup2X/nightingale/src/toolkits/exit"
+	"github.com/dup2X/nightingale/src/toolkits/stats"
 
 	"github.com/toolkits/pkg/logger"
 )

@@ -13,9 +13,9 @@ import (
 	"github.com/toolkits/pkg/str"
 	"github.com/toolkits/pkg/sys"
 
-	"github.com/didi/nightingale/src/common/address"
-	"github.com/didi/nightingale/src/common/identity"
-	"github.com/didi/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/common/address"
+	"github.com/dup2X/nightingale/src/common/identity"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
 )
 
 var (

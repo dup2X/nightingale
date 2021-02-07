@@ -13,10 +13,10 @@ import (
 	"github.com/toolkits/pkg/logger"
 	"github.com/ugorji/go/codec"
 
-	"github.com/didi/nightingale/src/common/address"
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/cache"
-	"github.com/didi/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/common/address"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/cache"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
 )
 
 func Push(metricItems []*dataobj.MetricValue) error {

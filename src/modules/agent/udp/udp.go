@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/didi/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
 )
 
 var (

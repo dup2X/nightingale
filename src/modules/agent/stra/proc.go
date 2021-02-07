@@ -11,9 +11,9 @@ import (
 	"github.com/toolkits/pkg/file"
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/models"
-	"github.com/didi/nightingale/src/modules/agent/config"
-	"github.com/didi/nightingale/src/toolkits/str"
+	"github.com/dup2X/nightingale/src/models"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/toolkits/str"
 )
 
 func NewProcCollect(method, name, tags string, step int, modTime time.Time) *models.ProcCollect {

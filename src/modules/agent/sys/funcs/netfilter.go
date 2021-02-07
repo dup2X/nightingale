@@ -4,8 +4,8 @@ import (
 	"github.com/toolkits/pkg/file"
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/core"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/core"
 )
 
 func NfMetrics() []*dataobj.MetricValue {

@@ -7,11 +7,11 @@ import (
 
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/models"
-	"github.com/didi/nightingale/src/modules/agent/config"
-	"github.com/didi/nightingale/src/modules/agent/core"
-	"github.com/didi/nightingale/src/modules/agent/report"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/models"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/modules/agent/core"
+	"github.com/dup2X/nightingale/src/modules/agent/report"
 )
 
 type PortScheduler struct {

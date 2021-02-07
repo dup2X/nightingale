@@ -5,7 +5,7 @@ import (
 
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/modules/agent/stra"
+	"github.com/dup2X/nightingale/src/modules/agent/stra"
 )
 
 // 后续开发者切记 : 没有锁，不能修改globalStrategy，更新的时候直接替换，否则会panic

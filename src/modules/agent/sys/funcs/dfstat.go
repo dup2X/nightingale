@@ -8,9 +8,9 @@ import (
 	"github.com/toolkits/pkg/nux"
 	"github.com/toolkits/pkg/slice"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/core"
-	"github.com/didi/nightingale/src/modules/agent/sys"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/core"
+	"github.com/dup2X/nightingale/src/modules/agent/sys"
 )
 
 func DeviceMetrics() []*dataobj.MetricValue {

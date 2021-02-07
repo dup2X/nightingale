@@ -3,7 +3,7 @@ package timer
 import (
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/common/dataobj"
 )
 
 type LocalTasksT struct {

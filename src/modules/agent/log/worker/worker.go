@@ -11,9 +11,9 @@ import (
 
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/modules/agent/config"
-	"github.com/didi/nightingale/src/modules/agent/log/strategy"
-	"github.com/didi/nightingale/src/modules/agent/stra"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/modules/agent/log/strategy"
+	"github.com/dup2X/nightingale/src/modules/agent/stra"
 )
 
 type callbackHandler func(int64, int64)

@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/toolkits/pkg/file"
 
-	"github.com/didi/nightingale/src/modules/agent/config"
-	"github.com/didi/nightingale/src/modules/agent/timer"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/modules/agent/timer"
 )
 
 func output(idstr string, typ string) (string, error) {

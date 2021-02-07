@@ -6,9 +6,9 @@ import (
 
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/client"
-	"github.com/didi/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/client"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
 )
 
 func Heartbeat() {

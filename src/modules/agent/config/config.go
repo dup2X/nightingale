@@ -9,9 +9,9 @@ import (
 	"github.com/spf13/viper"
 	"github.com/toolkits/pkg/file"
 
-	"github.com/didi/nightingale/src/common/identity"
-	"github.com/didi/nightingale/src/common/loggeri"
-	"github.com/didi/nightingale/src/modules/agent/sys"
+	"github.com/dup2X/nightingale/src/common/identity"
+	"github.com/dup2X/nightingale/src/common/loggeri"
+	"github.com/dup2X/nightingale/src/modules/agent/sys"
 )
 
 type ConfigT struct {
@@ -47,12 +47,13 @@ type enableSection struct {
 }
 
 type reportSection struct {
-	Token    string            `yaml:"token"`
-	Interval int               `yaml:"interval"`
-	Cate     string            `yaml:"cate"`
-	UniqKey  string            `yaml:"uniqkey"`
-	SN       string            `yaml:"sn"`
-	Fields   map[string]string `yaml:"fields"`
+	Token         string            `yaml:"token"`
+	Interval      int               `yaml:"interval"`
+	Cate          string            `yaml:"cate"`
+	UniqKey       string            `yaml:"uniqkey"`
+	SN            string            `yaml:"sn"`
+	Fields        map[string]string `yaml:"fields"`
+	UsePromethues bool              `yaml:"use_promethues"`
 }
 
 type straSection struct {

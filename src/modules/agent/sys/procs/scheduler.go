@@ -7,11 +7,11 @@ import (
 	process "github.com/shirou/gopsutil/process"
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/models"
-	"github.com/didi/nightingale/src/modules/agent/cache"
-	"github.com/didi/nightingale/src/modules/agent/config"
-	"github.com/didi/nightingale/src/modules/agent/core"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/models"
+	"github.com/dup2X/nightingale/src/modules/agent/cache"
+	"github.com/dup2X/nightingale/src/modules/agent/config"
+	"github.com/dup2X/nightingale/src/modules/agent/core"
 )
 
 type ProcScheduler struct {

@@ -3,8 +3,8 @@ package funcs
 import (
 	"log"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/sys"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/sys"
 )
 
 type FuncsAndInterval struct {

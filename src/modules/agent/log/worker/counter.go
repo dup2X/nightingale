@@ -10,9 +10,9 @@ import (
 
 	"github.com/toolkits/pkg/logger"
 
-	"github.com/didi/nightingale/src/common/dataobj"
-	"github.com/didi/nightingale/src/modules/agent/log/strategy"
-	"github.com/didi/nightingale/src/modules/agent/stra"
+	"github.com/dup2X/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/modules/agent/log/strategy"
+	"github.com/dup2X/nightingale/src/modules/agent/stra"
 )
 
 //从worker往计算部分推的Point

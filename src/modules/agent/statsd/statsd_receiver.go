@@ -3,7 +3,7 @@ package statsd
 import (
 	"strings"
 
-	"github.com/didi/nightingale/src/toolkits/stats"
+	"github.com/dup2X/nightingale/src/toolkits/stats"
 
 	"github.com/toolkits/pkg/logger"
 )

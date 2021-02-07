@@ -3,7 +3,7 @@ package procs
 import (
 	"time"
 
-	"github.com/didi/nightingale/src/modules/agent/stra"
+	"github.com/dup2X/nightingale/src/modules/agent/stra"
 )
 
 func Detect() {

@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/didi/nightingale/src/common/dataobj"
+	"github.com/dup2X/nightingale/src/common/dataobj"
 	process "github.com/shirou/gopsutil/process"
 )
 

@@ -8,7 +8,7 @@ import (
 	"github.com/toolkits/pkg/logger"
 	"github.com/toolkits/pkg/net/gobrpc"
 
-	"github.com/didi/nightingale/src/common/address"
+	"github.com/dup2X/nightingale/src/common/address"
 )
 
 var cli *gobrpc.RPCClient
