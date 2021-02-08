@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"unsafe"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/push"
 	"github.com/toolkits/pkg/logger"
 
 	"github.com/dup2X/nightingale/src/common/dataobj"
@@ -47,18 +50,37 @@ type StrategyCounter struct {
 	TmsPoints map[int64]*PointsCounter //按照时间戳分类的分别的counter
 }
 
+type baseCollector struct {
+	base      *prometheus.CounterVec
+	baseGauge *prometheus.GaugeVec
+}
+
 // 全局counter对象, 以key为索引，索引每个策略的统计
 // key : Strategy ID
 type GlobalCounter struct {
 	sync.RWMutex
 	StrategyCounts map[int64]*StrategyCounter
+	rpcCounter     *prometheus.CounterVec
+	rpcErrCounter  *prometheus.CounterVec
+	rpcLentency    *prometheus.GaugeVec
+	rpcTP          *prometheus.HistogramVec
+	common         map[int64]*baseCollector
 }
 
 var GlobalCount *GlobalCounter
 
+var (
+	gPusher *push.Pusher
+	gReg    *prometheus.Registry
+)
+
 func init() {
 	GlobalCount = new(GlobalCounter)
 	GlobalCount.StrategyCounts = make(map[int64]*StrategyCounter)
+	GlobalCount.common = make(map[int64]*baseCollector)
+	gPusher = push.New("http://127.0.0.1:9091", "agent_xx")
+	gReg = prometheus.NewRegistry()
+	gPusher.Gatherer(gReg)
 }
 
 // 提供给Worker用来Push计算后的信息
@@ -73,7 +95,6 @@ func PushToCount(Point *AnalysPoint) error {
 			logger.Errorf("GetByID ERROR when count:[%v]", err)
 			return err
 		}
-
 		GlobalCount.AddStrategyCount(strategy)
 
 		stCount, err = GlobalCount.GetStrategyCountByID(Point.StrategyID)
@@ -82,6 +103,28 @@ func PushToCount(Point *AnalysPoint) error {
 			logger.Errorf("Get strategyCount Failed after addition: %v", err)
 			return err
 		}
+	}
+	// 处理RPC相关的指标
+	var vs []string
+	for _, k := range stCount.Strategy.SortedTagKey {
+		vs = append(vs, Point.Tags[k])
+	}
+	switch stCount.Strategy.MeasurementType {
+	case "rpc":
+		var (
+			code string
+		)
+		code = Point.Tags["code"]
+		GlobalCount.rpcCounter.WithLabelValues(vs...).Inc()
+		if code != "0" {
+			GlobalCount.rpcErrCounter.WithLabelValues(vs...).Inc()
+		}
+		GlobalCount.rpcTP.WithLabelValues(vs...).Observe(Point.Value)
+		GlobalCount.rpcLentency.WithLabelValues(vs...).Set(Point.Value)
+	case "cnt":
+		GlobalCount.common[Point.StrategyID].base.WithLabelValues(vs...).Inc()
+	case "avg":
+		GlobalCount.common[Point.StrategyID].baseGauge.WithLabelValues(vs...).Inc()
 	}
 
 	// 拿到stCount，更新StepCounts
@@ -301,6 +344,66 @@ func (gc *GlobalCounter) AddStrategyCount(st *stra.Strategy) {
 		tmp := new(StrategyCounter)
 		tmp.Strategy = st
 		tmp.TmsPoints = make(map[int64]*PointsCounter)
+		var err error
+		if gc.rpcCounter == nil && st.MeasurementType == "rpc" {
+			gc.rpcCounter = prometheus.NewCounterVec(prometheus.CounterOpts{
+				Namespace: st.ServiceName, Subsystem: strings.ReplaceAll(st.Name, ".", "_"), Name: "rpc_count",
+				Help: "rpc counter",
+			}, st.SortedTagKey)
+			err = gReg.Register(gc.rpcCounter)
+			if err != nil {
+				logger.Warningf("register failed,err:%v", err)
+			}
+			gc.rpcErrCounter = prometheus.NewCounterVec(prometheus.CounterOpts{
+				Namespace: st.ServiceName, Subsystem: strings.ReplaceAll(st.Name, ".", "_"), Name: "rpc_err_count",
+				Help: "rpc err counter",
+			}, st.SortedTagKey)
+			err = gReg.Register(gc.rpcErrCounter)
+			if err != nil {
+				logger.Warningf("register failed,err:%v", err)
+			}
+			gc.rpcLentency = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+				Namespace: st.ServiceName, Subsystem: strings.ReplaceAll(st.Name, ".", "_"), Name: "rpc_lantency",
+				Help: "rpc lentency",
+			}, st.SortedTagKey)
+			err = gReg.Register(gc.rpcLentency)
+			if err != nil {
+				logger.Warningf("register failed,err:%v", err)
+			}
+			gc.rpcTP = prometheus.NewHistogramVec(prometheus.HistogramOpts{
+				Namespace: st.ServiceName, Subsystem: strings.ReplaceAll(st.Name, ".", "_"), Name: "rpc_tp",
+				Help:    "rpc tp50 tp99..",
+				Buckets: []float64{50, 100, 200, 500, 1000, 2000, 5000}},
+				st.SortedTagKey,
+			)
+			err = gReg.Register(gc.rpcTP)
+			if err != nil {
+				logger.Warningf("register failed,err:%v", err)
+			}
+		}
+		if st.MeasurementType != "rpc" {
+			if _, ok := gc.common[st.ID]; !ok {
+				gc.common[st.ID] = &baseCollector{
+					base: prometheus.NewCounterVec(prometheus.CounterOpts{
+						Namespace: st.ServiceName, Name: strings.ReplaceAll(st.Name, ".", "_"),
+						Help: "base counter..",
+					}, st.SortedTagKey),
+					baseGauge: prometheus.NewGaugeVec(prometheus.GaugeOpts{
+						Namespace: st.ServiceName, Name: strings.ReplaceAll(st.Name, ".", "_"),
+						Help: "base gauge counter",
+					}, st.SortedTagKey),
+				}
+				err = gReg.Register(gc.common[st.ID].base)
+				if err != nil {
+					logger.Warningf("register failed,err:%v", err)
+				}
+				err = gReg.Register(gc.common[st.ID].baseGauge)
+				if err != nil {
+					logger.Warningf("register failed,err:%v", err)
+				}
+				logger.Infof("register %v for %d\n", gc.common[st.ID].base, st.ID)
+			}
+		}
 		gc.StrategyCounts[st.ID] = tmp
 	}
 	gc.Unlock()
@@ -349,6 +452,10 @@ func (gc *GlobalCounter) cleanStrategyData(id int64) {
 		return
 	}
 	sCount.TmsPoints = make(map[int64]*PointsCounter)
+}
+
+func prometheusPush() error {
+	return gPusher.Push()
 }
 
 // countEqual意味着不会对统计的结构产生影响

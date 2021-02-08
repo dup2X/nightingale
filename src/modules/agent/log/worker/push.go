@@ -78,15 +78,26 @@ func PusherLoop() {
 			step := stCount.Strategy.Interval
 			filePath := stCount.Strategy.FilePath
 			tmsList := stCount.GetTmsList()
-			for _, tms := range tmsList {
-				if tmsNeedPush(tms, filePath, step, config.Config.Worker.WaitPush) {
-					pointsCount, err := stCount.GetByTms(tms)
-					if err == nil {
-						ToPushQueue(stCount.Strategy, tms, pointsCount.TagstringMap)
-					} else {
-						logger.Errorf("get by tms [%d] error : %v", tms, err)
+
+			err = prometheusPush()
+			if err != nil {
+				logger.Errorf("push to prometheus push gateway failed, id %v error: %v\n", id, err)
+				continue
+			}
+			logger.Infof("push to prometheus push gateway successed, id %v\n", id)
+
+			if false {
+				for _, tms := range tmsList {
+					if tmsNeedPush(tms, filePath, step, config.Config.Worker.WaitPush) {
+						pointsCount, err := stCount.GetByTms(tms)
+						if err == nil {
+							// 这里改成直接推送到prometheus push gateway
+							ToPushQueue(stCount.Strategy, tms, pointsCount.TagstringMap)
+						} else {
+							logger.Errorf("get by tms [%d] error : %v", tms, err)
+						}
+						stCount.DeleteTms(tms)
 					}
-					stCount.DeleteTms(tms)
 				}
 			}
 		}

@@ -1,0 +1,14 @@
+{
+  "name": "log.oom",
+  "service":"demo",
+  "file_path": "/tmp/demo.log",
+  "time_format": "yyyy-mm-dd HH:MM:SS",
+  "pattern": "Out of memory",
+  "measurement_type":"cnt",
+  "interval": 10,
+  "tags": {},
+  "func": "cnt",
+  "degree": 6,
+  "unit": "次数",
+  "comment": "有进程oom了"
+}

@@ -1,19 +1,11 @@
 package core
 
 import (
-	"bufio"
 	"fmt"
-	"io"
-	"math/rand"
-	"net"
-	"net/rpc"
-	"reflect"
 	"time"
 
 	"github.com/toolkits/pkg/logger"
-	"github.com/ugorji/go/codec"
 
-	"github.com/dup2X/nightingale/src/common/address"
 	"github.com/dup2X/nightingale/src/common/dataobj"
 	"github.com/dup2X/nightingale/src/modules/agent/cache"
 	"github.com/dup2X/nightingale/src/modules/agent/config"
@@ -21,7 +13,6 @@ import (
 
 func Push(metricItems []*dataobj.MetricValue) error {
 	var err error
-	var items []*dataobj.MetricValue
 	now := time.Now().Unix()
 
 	for _, item := range metricItems {
@@ -36,117 +27,51 @@ func Push(metricItems []*dataobj.MetricValue) error {
 			// 如果数据有问题，直接跳过吧，比如mymon采集的到的数据，其实只有一个有问题，剩下的都没问题
 			continue
 		}
-		if item.CounterType == dataobj.COUNTER {
-			item = CounterToGauge(item)
-			if item == nil {
-				continue
-			}
-		}
-		if item.CounterType == dataobj.SUBTRACT {
-			item = SubtractToGauge(item)
-			if item == nil {
-				continue
-			}
-		}
-		logger.Debugf("push item: %+v", item)
-		items = append(items, item)
 	}
 
-	addrs := address.GetRPCAddresses("transfer")
-	count := len(addrs)
 	retry := 0
-	for {
-		for _, i := range rand.Perm(count) {
-			addr := addrs[i]
-			reply, err := rpcCall(addr, items)
-			if err != nil {
-				logger.Error(err)
-				continue
-			} else {
-				if reply.Msg != "ok" {
-					err = fmt.Errorf("some item push err: %s", reply.Msg)
-					logger.Error(err)
-				}
-				return err
-			}
-		}
-
-		time.Sleep(time.Millisecond * 500)
-
-		retry += 1
-		if retry == 3 {
+	for len(metricItems) > 0 {
+		if retry >= 3 {
 			break
 		}
+		_, err := rpcCall()
+		if err != nil {
+			logger.Error(err)
+			retry += 1
+			time.Sleep(time.Millisecond * 500)
+			continue
+		}
+		return nil
 	}
 
 	return err
 }
 
-func rpcCall(addr string, items []*dataobj.MetricValue) (dataobj.TransferResp, error) {
+func rpcCall() (dataobj.TransferResp, error) {
 	var reply dataobj.TransferResp
 	var err error
-
-	client := rpcClients.Get(addr)
-	if client == nil {
-		client, err = rpcClient(addr)
-		if err != nil {
-			return reply, err
-		}
-		affected := rpcClients.Put(addr, client)
-		if !affected {
-			defer func() {
-				// 我尝试把自己这个client塞进map失败，说明已经有一个client塞进去了，那我自己用完了就关闭
-				client.Close()
-			}()
-
-		}
+	if true {
+		return reply, err
 	}
 
 	timeout := time.Duration(8) * time.Second
 	done := make(chan error, 1)
 
 	go func() {
-		err := client.Call("Transfer.Push", items, &reply)
 		done <- err
 	}()
 
 	select {
 	case <-time.After(timeout):
-		logger.Warningf("rpc call timeout, transfer addr: %s\n", addr)
-		rpcClients.Put(addr, nil)
-		client.Close()
-		return reply, fmt.Errorf("%s rpc call timeout", addr)
+		logger.Warningf("rpc call timeout, transfer addr\n")
+		return reply, fmt.Errorf("rpc call timeout")
 	case err := <-done:
 		if err != nil {
-			rpcClients.Del(addr)
-			client.Close()
-			return reply, fmt.Errorf("%s rpc call done, but fail: %v", addr, err)
+			return reply, fmt.Errorf("rpc call done, but fail: %v", err)
 		}
 	}
 
 	return reply, nil
-}
-
-func rpcClient(addr string) (*rpc.Client, error) {
-	conn, err := net.DialTimeout("tcp", addr, time.Second*3)
-	if err != nil {
-		err = fmt.Errorf("dial transfer %s fail: %v", addr, err)
-		logger.Error(err)
-		return nil, err
-	}
-
-	var bufConn = struct {
-		io.Closer
-		*bufio.Reader
-		*bufio.Writer
-	}{conn, bufio.NewReader(conn), bufio.NewWriter(conn)}
-
-	var mh codec.MsgpackHandle
-	mh.MapType = reflect.TypeOf(map[string]interface{}(nil))
-
-	rpcCodec := codec.MsgpackSpecRpc.ClientCodec(bufConn, &mh)
-	client := rpc.NewClientWithCodec(rpcCodec)
-	return client, nil
 }
 
 func CounterToGauge(item *dataobj.MetricValue) *dataobj.MetricValue {

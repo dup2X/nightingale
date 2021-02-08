@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/toolkits/pkg/file"
@@ -15,6 +16,7 @@ import (
 
 type Strategy struct {
 	ID              int64                     `json:"id"`
+	ServiceName     string                    `json:"service"`
 	Name            string                    `json:"name"`        //监控策略名
 	FilePath        string                    `json:"file_path"`   //文件路径
 	TimeFormat      string                    `json:"time_format"` //时间格式
@@ -34,6 +36,7 @@ type Strategy struct {
 	PatternReg      *regexp.Regexp            `json:"-"`
 	ExcludeReg      *regexp.Regexp            `json:"-"`
 	TagRegs         map[string]*regexp.Regexp `json:"-"`
+	SortedTagKey    []string                  `json:"-"`
 	ParseSucc       bool                      `json:"parse_succ"`
 }
 
@@ -203,8 +206,10 @@ func updateRegs(strategies []*Strategy) {
 			st.ExcludeReg = reg
 		}
 
+		var tgs []string
 		//更新tags
 		for tagk, tagv := range st.Tags {
+			tgs = append(tgs, tagk)
 			reg, err = regexp.Compile(tagv)
 			if err != nil {
 				logger.Errorf("compile tag failed:[sid:%d][pat:%s][err:%v]", st.ID, st.Exclude, err)
@@ -212,6 +217,8 @@ func updateRegs(strategies []*Strategy) {
 			}
 			st.TagRegs[tagk] = reg
 		}
+		sort.Strings(tgs)
+		st.SortedTagKey = tgs
 		st.ParseSucc = true
 	}
 }

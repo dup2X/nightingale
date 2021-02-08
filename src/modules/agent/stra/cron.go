@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/toolkits/pkg/logger"
+	//"github.com/toolkits/pkg/logger"
 	"github.com/toolkits/pkg/net/httplib"
 
 	"github.com/dup2X/nightingale/src/common/address"
@@ -33,7 +33,7 @@ func loopDetect() {
 func detect() {
 	c, err := GetCollectsRetry()
 	if err != nil {
-		logger.Errorf("get collect err:%v", err)
+		//logger.Errorf("get collect err:%v", err)
 		return
 	}
 

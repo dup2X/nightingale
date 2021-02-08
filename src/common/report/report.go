@@ -5,9 +5,9 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/didi/nightingale/src/common/address"
-	"github.com/didi/nightingale/src/common/identity"
-	"github.com/didi/nightingale/src/models"
+	"github.com/dup2X/nightingale/src/common/address"
+	"github.com/dup2X/nightingale/src/common/identity"
+	"github.com/dup2X/nightingale/src/models"
 
 	"github.com/toolkits/pkg/logger"
 	"github.com/toolkits/pkg/net/httplib"

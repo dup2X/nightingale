@@ -1,15 +1,16 @@
 logger:
   dir: logs/agent
-  level: INFO
+  level: DEBUG
   keepHours: 24
 
 enable:
+  mon: true
   report: true
   metrics: true
 
 udp:
   enable: true
-  listen: :788
+  listen: :789
 
 metrics:
   maxProcs: 1
@@ -26,4 +27,7 @@ stra:
   interval: 10
   api: asd
   timeout: 2
-  logPath: ./etc/stra/log
+  logPath: ./etc/log
+worker:
+  workerNum: 1
+  pushInterval: 2

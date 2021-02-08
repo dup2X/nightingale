@@ -15,11 +15,11 @@ import (
 	"github.com/dup2X/nightingale/src/modules/agent/report"
 	"github.com/dup2X/nightingale/src/modules/agent/statsd"
 	"github.com/dup2X/nightingale/src/modules/agent/stra"
-	"github.com/dup2X/nightingale/src/modules/agent/sys"
-	"github.com/dup2X/nightingale/src/modules/agent/sys/funcs"
-	"github.com/dup2X/nightingale/src/modules/agent/sys/plugins"
-	"github.com/dup2X/nightingale/src/modules/agent/sys/ports"
-	"github.com/dup2X/nightingale/src/modules/agent/sys/procs"
+	//"github.com/dup2X/nightingale/src/modules/agent/sys"
+	//"github.com/dup2X/nightingale/src/modules/agent/sys/funcs"
+	//"github.com/dup2X/nightingale/src/modules/agent/sys/plugins"
+	//"github.com/dup2X/nightingale/src/modules/agent/sys/ports"
+	//"github.com/dup2X/nightingale/src/modules/agent/sys/procs"
 	"github.com/dup2X/nightingale/src/modules/agent/timer"
 	"github.com/dup2X/nightingale/src/modules/agent/udp"
 	"github.com/dup2X/nightingale/src/toolkits/stats"
@@ -77,7 +77,7 @@ func main() {
 	}
 
 	if config.Config.Enable.Report {
-		reportStart()
+		//reportStart()
 	}
 
 	if config.Config.Enable.Metrics {
@@ -102,20 +102,20 @@ func jobStart() {
 }
 
 func monStart() {
-	sys.Init(config.Config.Sys)
+	//sys.Init(config.Config.Sys)
 	stra.Init()
 
-	funcs.BuildMappers()
-	funcs.Collect()
+	//funcs.BuildMappers()
+	//funcs.Collect()
 
 	//插件采集
-	plugins.Detect()
+	//plugins.Detect()
 
 	//进程采集
-	procs.Detect()
+	//procs.Detect()
 
 	//端口采集
-	ports.Detect()
+	//ports.Detect()
 
 	//初始化缓存，用作保存COUNTER类型数据
 	cache.Init()

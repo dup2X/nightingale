@@ -1,0 +1,17 @@
+{
+  "name": "log.rpc",
+  "service":"demo",
+  "file_path": "/tmp/demo.log",
+  "time_format": "yyyy-mm-dd HH:MM:SS",
+  "pattern": "rpc_metrics.+elapsed=(\\d+)",
+  "measurement_type":"rpc",
+  "interval": 10,
+  "tags": {
+    "uri":"uri=([a-zA-Z]+)",
+    "code":"code=(\\d+)"
+  },
+  "func": "rpc",
+  "degree": 6,
+  "unit": "ms",
+  "comment": "RPC服务耗时"
+}
