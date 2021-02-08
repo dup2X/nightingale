@@ -7,8 +7,8 @@ import (
 	_ "net/http/pprof"
 	"time"
 
-	"github.com/didi/nightingale/src/common/address"
-	"github.com/didi/nightingale/src/toolkits/http/middleware"
+	"github.com/dup2X/nightingale/src/common/address"
+	"github.com/dup2X/nightingale/src/toolkits/http/middleware"
 
 	"github.com/gin-gonic/gin"
 )
