@@ -28,6 +28,7 @@ stra:
   api: asd
   timeout: 2
   logPath: ./etc/log
+  portPath: ./etc/port
 worker:
   workerNum: 1
   pushInterval: 2
